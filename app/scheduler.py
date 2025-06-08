@@ -5,7 +5,7 @@ from utils.image import create_image
 import os
 
 def generate_and_save(debug=False):
-    quote, author, book, raw_output = generate_quote(debug=debug)
+    quote, author, book, theme_info, raw_output = generate_quote(debug=debug)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_path = os.path.join("media", f"quote_{timestamp}.png")
 
@@ -14,7 +14,7 @@ def generate_and_save(debug=False):
     # Logging
     os.makedirs("logs/raw", exist_ok=True)
     with open("logs/quotes.log", "a") as log:
-        log.write(f"{timestamp} | {quote} — {author} ({book})\n")
+        log.write(f"{timestamp} | {quote} — {author} ({book}) | Theme: {theme_info}\n")
 
     if debug and raw_output:
         with open(f"logs/raw/{timestamp}.txt", "w") as debug_file:

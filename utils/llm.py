@@ -3,6 +3,7 @@ import json
 import re
 from time import sleep
 from utils.db import quote_exists, save_quote
+from utils.themes import get_theme_prompt
 
 def extract_first_json_block(text: str) -> str:
     match = re.search(r"\{.*?\}", text, re.DOTALL)
@@ -15,6 +16,13 @@ def generate_quote(max_retries=5, debug=False):
         "Do not add commentary. Format:\n"
         "{\n  \"quote\": \"...\", \n  \"author\": \"...\", \n  \"book\": \"...\" \n}"
     )
+
+    theme, theme_info = get_theme_prompt()
+    if theme:
+        prompt_base += f" Try to choose a quote {theme}."
+
+    if debug:
+        print(f"[Theme] Applied: {theme_info}")
 
 
     for attempt in range(max_retries):
@@ -51,7 +59,7 @@ def generate_quote(max_retries=5, debug=False):
                 continue
 
             save_quote(quote, author, book)
-            return quote, author, book, output if debug else None
+            return quote, author, book, theme_info, output if debug else None
 
         except Exception as e:
             print("LLM error:", e)
