@@ -1,0 +1,22 @@
+# Bytecode & caches
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+.env
+
+# Logs and raw LLM outputs
+logs/
+!logs/.gitkeep  # Optional: keep folder structure
+
+# Generated images
+media/
+!media/.gitkeep  # Optional: keep folder structure
+
+# Local SQLite DB
+quote_cache.db
+
+# OS files
+.DS_Store
+Thumbs.db
